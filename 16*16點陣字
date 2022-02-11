@@ -1,0 +1,32 @@
+#include "LedControl.h"  //引用 LedControl 程式庫
+LedControl lc=LedControl(12,11,10,8);  //宣告 LedControl 物件
+
+void setup() {
+  for(int i=0;i<8;i++){
+    lc.shutdown(i,false);/* Set the brightness to a medium values */
+    lc.setIntensity(i,1);/* and clear the display */
+    lc.clearDisplay(i);
+  }
+}
+void loop() {
+  int col;
+  int row;
+  byte a[8] = {B10001000,B10000000,B00000001,B00000010,B11111100,B00001000,B00010000,B00100000};
+  byte b[8] = {B00000000,B10000000,B10001000,B10001000,B10001000,B11111110,B10001000,B10001000};
+  byte c[8] = {B01000000,B01000000,B00000000,B00000000,B11111111,B00000000,B00000000,B00000000};
+  byte d[8] = {B01000000,B01000000,B01000000,B01000100,B01000100,B01111111,B01000100,B01000000};
+  byte e[8] = {B00110010,B01001011,B10000110,B00000100,B00001000,B00010000,B00000000,B00000000};
+  byte f[8] = {B00000000,B00000000,B00000000,B00000000,B00000010,B10000110,B01001010,B00110010};
+  byte g[8] = {B00100100,B00010000,B00000000,B00000001,B00000010,B00000010,B00000000,B00000000};
+  byte h[8] = {B00000000,B00000100,B00000100,B00000010,B00000001,B00100000,B10010000,B01001000};
+  for(int j=0;j<8;j++){
+    lc.setColumn(0,j,a[j]);
+    lc.setColumn(1,j,b[j]);
+    lc.setColumn(4,j,c[j]);
+    lc.setColumn(5,j,d[j]);
+    lc.setColumn(2,j,e[j]);
+    lc.setColumn(3,j,f[j]);
+    lc.setColumn(6,j,g[j]);
+    lc.setColumn(7,j,h[j]);
+  }
+}
