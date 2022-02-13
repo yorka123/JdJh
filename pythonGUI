@@ -1,0 +1,6 @@
+from tkinter import *
+root = Tk()
+root.title("1100213")
+label = Label(root,text = "佳冬科展",fg = "black",bg = "white")
+label.pack()
+root.mainloop()
