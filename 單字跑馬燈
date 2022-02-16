@@ -1,0 +1,29 @@
+//依序亮每一顆LED 再依序滅每一顆LED
+#include "LedControl.h"  //引用 LedControl 程式庫
+LedControl lc=LedControl(12,11,10,8);  //宣告 LedControl 物件
+
+byte a[8]={B00000011,B11111100,B10101010,B10111111,B10101010,B10101010,B10111111,B11101010};
+byte temp[8]={0,0,0,0,0,0,0,0};
+
+void setup() {
+  lc.shutdown(0,false);  // 關閉省電模式
+  lc.setIntensity(0,0);  // 設定亮度為 0 (介於0~15之間)
+  lc.clearDisplay(0);    // 清除螢幕
+}
+
+void loop() {
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp[i]=temp[i+1];
+      lc.setColumn(0,i,temp[i]);
+    }
+    temp[7]=a[j];
+    lc.setColumn(0,7,temp[7]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    lc.setColumn(0,j,0);
+    temp[j]=0;
+    delay(200);
+  }
+}
