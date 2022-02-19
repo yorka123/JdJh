@@ -1,0 +1,105 @@
+//依序亮每一顆LED 再依序滅每一顆LED
+#include "LedControl.h"  //引用 LedControl 程式庫
+LedControl lc=LedControl(12,11,10,8);  //宣告 LedControl 物件
+
+byte a[8]={B11000000,B00111111,B01010101,B11111101,B01010101,B01010101,B11111101,B01010111};
+byte b[8]={B00000000,B10000010,B01011110,B00111010,B11111111,B00111010,B01011110,B10000010};
+byte c[8]={B01000000,B00101010,B11111110,B01101001,B01001010,B01010100,B11111111,B01000000};
+byte d[8]={B10000000,B01111111,B00101101,B11101101,B10111101,B01101101,B11111101,B10101111};
+
+byte temp1[8]={0,0,0,0,0,0,0,0};
+byte temp2[8]={0,0,0,0,0,0,0,0};
+byte temp3[8]={0,0,0,0,0,0,0,0};
+byte temp4[8]={0,0,0,0,0,0,0,0};
+
+void setup() {
+  for(int j=0;j<4;j++){
+    lc.shutdown(j,false);  // 關閉省電模式
+    lc.setIntensity(j,0);  // 設定亮度為 0 (介於0~15之間)
+    lc.clearDisplay(j);    // 清除螢幕
+  }
+  
+}
+
+void loop() {
+  for(int j=0;j<8;j++){ 
+    for(int i=0;i<7;i++){
+      temp1[7-i]=temp1[6-i];
+      lc.setColumn(3,7-i,temp1[7-i]);
+    }
+    temp1[0]=a[j];
+    lc.setColumn(3,0,temp1[0]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[7-i]=temp1[6-i];
+      temp2[7-i]=temp2[6-i];
+      lc.setColumn(3,7-i,temp1[7-i]);
+      lc.setColumn(2,7-i,temp2[7-i]);
+    }
+    temp1[0]=b[j];
+    temp2[0]=a[j];
+    lc.setColumn(3,0,temp1[0]);
+    lc.setColumn(2,0,temp2[0]);
+    delay(200);
+  }//第1顆繼續跑東字，同時第0顆跑屏字進來
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[7-i]=temp1[6-i];
+      temp2[7-i]=temp2[6-i];
+      temp3[7-i]=temp3[6-i];
+      lc.setColumn(3,7-i,temp1[7-i]);
+      lc.setColumn(2,7-i,temp2[7-i]);
+      lc.setColumn(1,7-i,temp3[7-i]);
+    }
+    temp1[0]=c[j];
+    temp2[0]=b[j];
+    temp3[0]=a[j];
+    lc.setColumn(3,0,temp1[0]);
+    lc.setColumn(2,0,temp2[0]);
+    lc.setColumn(1,0,temp3[0]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[7-i]=temp1[6-i];
+      temp2[7-i]=temp2[6-i];
+      temp3[7-i]=temp3[6-i];
+      temp4[7-i]=temp4[6-i];
+      lc.setColumn(3,7-i,temp1[7-i]);
+      lc.setColumn(2,7-i,temp2[7-i]);
+      lc.setColumn(1,7-i,temp3[7-i]);
+      lc.setColumn(0,7-i,temp4[7-i]);
+    }
+    temp1[0]=d[j];
+    temp2[0]=c[j];
+    temp3[0]=b[j];
+    temp4[0]=a[j];
+    lc.setColumn(3,0,temp1[0]);
+    lc.setColumn(2,0,temp2[0]);
+    lc.setColumn(1,0,temp3[0]);
+    lc.setColumn(0,0,temp4[0]);
+    delay(200);
+  }
+  delay(200);
+  for (int i=0;i<8;i++){
+    temp1[i]=0;
+    temp2[i]=0;
+    temp3[i]=0;
+    temp4[i]=0;
+  }
+  for (int i=0;i<8;i++){
+    lc.setColumn(3,7-i,d[i]);
+    lc.setColumn(2,7-i,c[i]);
+    lc.setColumn(1,7-i,b[i]);
+    lc.setColumn(0,7-i,a[i]);
+  }
+  delay(200);  
+  for (int i=0;i<4;i++){
+    for (int j=0;j<8;j++){
+      lc.setColumn(3-i,j,0);
+    delay(200);
+    }  
+  }
+}
