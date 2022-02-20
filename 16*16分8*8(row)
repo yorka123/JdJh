@@ -1,0 +1,55 @@
+"""
+#input success
+
+from pyfirmata2 import ArduinoMega
+import time
+board = ArduinoMega('COM5')
+while 1:
+    board.digital[13].write(0)
+    time.sleep(0.5)
+    board.digital[13].write(1)
+"""
+# excel transform
+
+from openpyxl import Workbook, load_workbook
+from openpyxl.utils import get_column_letter
+
+BitWord = load_workbook('點陣ver2.xlsx')
+title = BitWord.sheetnames
+save_list = []
+
+for name in range(len(title)):  # 資料存入陣列(尚未分割，橫列儲存)
+    sheet = BitWord[title[name]]
+    save_list.append([])
+    for row in range(1, 17):
+        save_list[name].append([])
+        for col in range(1, 17):
+            char = get_column_letter(col)
+            save_list[name][row - 1].append(sheet[char + str(row)].value)
+
+"""
+for name in range(len(save_list)):  # 測試輸出
+    for row in range(len(save_list[0])):
+        print(save_list[name][row])
+    print('')
+"""
+
+save_char = ""  # 四部分分割
+output_list = []
+
+for name in range(len(save_list)):
+    output_list.append([[], [], [], []])
+    for row in range(16):
+        for sep in range(2):
+            for num in range(8):
+                if sep == 0:
+                    save_char += str(save_list[name][row][num])
+                else:
+                    save_char += str(save_list[name][row][num + 8])
+            if row < 8:
+                output_list[name][sep].append(save_char)
+            else:
+                output_list[name][sep + 2].append(save_char)
+            save_char = ""
+
+print(output_list)
