@@ -1,0 +1,52 @@
+#include "LedControl.h"  //引用 LedControl 程式庫
+LedControl lc1=LedControl(12,11,10,8);
+LedControl lc2=LedControl(9,8,7,8);//宣告 LedControl 物件
+byte a[8]={B00000000,B00000000,B11111111,B00001001,B10001001,B10101001,B11001001,B10001001};
+byte b[8]={B10001001,B10001001,B10001001,B10001001,B11001001,B10101001,B10001001,B00001111};
+byte c[8]={B00000000,B00000010,B00000010,B11111010,B01001010,B01001010,B01001010,B01001010};
+byte d[8]={B11111111,B01001010,B01001010,B01001010,B01001010,B11111010,B00000010,B00000010};
+byte e[8]={B00010000,B00010010,B10010010,B11111110,B01010001,B10010001,B00000000,B00100010};
+byte f[8]={B01000100,B10011000,B00010000,B00000000,B11111111,B00000000,B00000000,B00000000};
+byte g[8]={B00000000,B00000000,B11111111,B01001001,B01001001,B01001001,B11101001,B01001001};
+byte h[8]={B01001001,B01001001,B01001001,B01001001,B11101001,B01001001,B01001001,B00001111};
+byte i[8]={B11000000,B00110000,B00001111,B00001000,B10001000,B01001000,B00111111,B00001000};
+byte j[8]={B00001000,B00001000,B00001000,B00001000,B11111111,B00001000,B00001000,B00001000};
+byte k[8]={B00000000,B00000000,B00000000,B01000011,B00100010,B00010010,B00001010,B01000110};
+byte l[8]={B11111111,B00000110,B00001010,B00010010,B00100010,B01000011,B01000000,B00000000};
+byte m[8]={B00000010,B00000001,B00000000,B11111111,B00000000,B00000001,B00001000,B00001000};
+byte n[8]={B00001000,B00001001,B00000101,B00000100,B11111111,B00000100,B00000100,B00000000};
+byte o[8]={B11000000,B00110000,B00001111,B00000010,B00000010,B11111110,B10000011,B01000010};
+byte p[8]={B01000110,B00001010,B00010010,B00110010,B01101011,B11001010,B10000010,B10000010};
+void setup() {
+  for(int i=0;i<8;i++){
+    lc1.shutdown(i,false);/* Set the brightness to a medium values */
+    lc1.setIntensity(i,0);/* and clear the display */
+    lc1.clearDisplay(i);
+  }
+  for(int i=0;i<8;i++){
+    lc2.shutdown(i,false);/* Set the brightness to a medium values */
+    lc2.setIntensity(i,0);/* and clear the display */
+    lc2.clearDisplay(i);
+  }
+}
+void loop() {
+  for (int s=0;s<8;s++){
+        lc1.setColumn(0,7-s,a[s]);
+        lc1.setColumn(1,7-s,b[s]);
+        lc1.setColumn(2,7-s,c[s]);
+        lc1.setColumn(3,7-s,d[s]);
+        lc1.setColumn(4,7-s,e[s]);
+        lc1.setColumn(5,7-s,f[s]);
+        lc1.setColumn(6,7-s,g[s]);
+        lc1.setColumn(7,7-s,h[s]);
+        lc2.setColumn(0,7-s,i[s]);
+        lc2.setColumn(1,7-s,j[s]);
+        lc2.setColumn(2,7-s,k[s]);
+        lc2.setColumn(3,7-s,l[s]);
+        lc2.setColumn(4,7-s,m[s]);
+        lc2.setColumn(5,7-s,n[s]);
+        lc2.setColumn(6,7-s,o[s]);
+        lc2.setColumn(7,7-s,p[s]);
+        
+  }
+}
