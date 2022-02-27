@@ -1,0 +1,245 @@
+//依序亮每一顆LED 再依序滅每一顆LED
+#include "LedControl.h"  //引用 LedControl 程式庫
+LedControl lc1=LedControl(12,11,10,8);
+LedControl lc2=LedControl(9,8,7,8);//宣告 LedControl 物件
+
+byte a[8]={B00000000,B00000000,B11111111,B00001001,B10001001,B10101001,B11001001,B10001001};
+byte b[8]={B11000000,B00110000,B00001111,B00001000,B10001000,B01001000,B00111111,B00001000};
+byte c[8]={B10001001,B10001001,B10001001,B11001001,B10101001,B10001001,B00001111,B00000000};
+byte d[8]={B00001000,B00001000,B00001000,B11111111,B00001000,B00001000,B00001000,B00000000};
+byte e[8]={B00000010,B00000010,B11111010,B01001010,B01001010,B01001010,B01001010,B11111111};
+byte f[8]={B00000000,B00000000,B01000011,B00100010,B00010010,B00001010,B01000110,B11111111};
+byte g[8]={B01001010,B01001010,B01001010,B01001010,B11111010,B00000010,B00000010,B00000000};
+byte h[8]={B00000110,B00001010,B00010010,B00100010,B01000011,B01000000,B00000000,B00000000};
+byte i[8]={B00010000,B00010010,B10010010,B11111110,B01010001,B10010001,B00000000,B00100010};
+byte j[8]={B00000010,B00000001,B00000000,B11111111,B00000000,B00000001,B00001000,B00001000};
+byte k[8]={B01000100,B10011000,B00010000,B00000000,B11111111,B00000000,B00000000,B00000000};
+byte l[8]={B00001000,B00001001,B00000101,B00000100,B11111111,B00000100,B00000100,B00000000};
+byte m[8]={B00000000,B00000000,B11111111,B01001001,B01001001,B01001001,B11101001,B01001001};
+byte n[8]={B11000000,B00110000,B00001111,B00000010,B00000010,B11111110,B10000011,B01000010};
+byte o[8]={B01001001,B01001001,B01001001,B01001001,B11101001,B01001001,B01001001,B00001111};
+byte p[8]={B01000110,B00001010,B00010010,B00110010,B01101011,B11001010,B10000010,B10000010};
+
+byte temp1[8]={0,0,0,0,0,0,0,0};
+byte temp2[8]={0,0,0,0,0,0,0,0};
+byte temp3[8]={0,0,0,0,0,0,0,0};
+byte temp4[8]={0,0,0,0,0,0,0,0};
+
+void setup() {
+  for(int j=0;j<8;j++){
+    lc1.shutdown(j,false);  // 關閉省電模式
+    lc1.setIntensity(j,0);  // 設定亮度為 0 (介於0~15之間)
+    lc1.clearDisplay(j);    // 清除螢幕
+  }
+  for(int j=0;j<8;j++){
+    lc2.shutdown(j,false);  // 關閉省電模式
+    lc2.setIntensity(j,0);  // 設定亮度為 0 (介於0~15之間)
+    lc2.clearDisplay(j);    // 清除螢幕
+  }
+  
+}
+
+void loop() {
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      lc1.setRow(0,i,temp1[i]);
+      lc1.setRow(1,i,temp2[i]);
+    }
+    temp1[7]=a[j];
+    temp2[7]=b[j];
+    lc1.setRow(0,7,temp1[7]);
+    lc1.setRow(1,7,temp2[7]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      temp3[i]=temp3[i+1];
+      temp4[i]=temp4[i+1];
+      lc1.setRow(0,i,temp1[i]);
+      lc1.setRow(1,i,temp2[i]);
+      lc2.setRow(0,i,temp3[i]);
+      lc2.setRow(1,i,temp4[i]);
+    }
+    temp1[7]=c[j];
+    temp2[7]=d[j];
+    temp3[7]=a[j];
+    temp4[7]=b[j];
+    lc1.setRow(0,7,temp1[7]);
+    lc1.setRow(1,7,temp2[7]);
+    lc2.setRow(0,7,temp3[7]);
+    lc2.setRow(1,7,temp4[7]);
+    delay(200);
+  }//先跑屏字
+  for (int i=0;i<8;i++){
+    temp1[i]=0;
+    temp2[i]=0;
+    temp3[i]=0;
+    temp4[i]=0;
+  }//洗陣列
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      lc1.setRow(2,i,temp1[i]);
+      lc1.setRow(3,i,temp2[i]);
+    }
+    temp1[7]=e[j];
+    temp2[7]=f[j];
+    lc1.setRow(2,7,temp1[7]);
+    lc1.setRow(3,7,temp2[7]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      temp3[i]=temp3[i+1];
+      temp4[i]=temp4[i+1];
+      lc1.setRow(2,i,temp1[i]);
+      lc1.setRow(3,i,temp2[i]);
+      lc2.setRow(2,i,temp3[i]);
+      lc2.setRow(3,i,temp4[i]);
+    }
+    temp1[7]=g[j];
+    temp2[7]=h[j];
+    temp3[7]=e[j];
+    temp4[7]=f[j];
+    lc1.setRow(2,7,temp1[7]);
+    lc1.setRow(3,7,temp2[7]);
+    lc2.setRow(2,7,temp3[7]);
+    lc2.setRow(3,7,temp4[7]);
+    delay(200);
+  }  
+  delay(200);
+  for (int i=0;i<8;i++){
+    temp1[i]=0;
+    temp2[i]=0;
+    temp3[i]=0;
+    temp4[i]=0;
+  }
+  for(int t=0;t<8;t++){
+    for(int s=0;s<7;s++){
+      temp1[s]=temp1[s+1];
+      temp2[s]=temp2[s+1];
+      lc1.setRow(4,s,temp1[s]);
+      lc1.setRow(5,s,temp2[s]);
+    }
+    temp1[7]=i[t];
+    temp2[7]=j[t];
+    lc1.setRow(4,7,temp1[7]);
+    lc1.setRow(5,7,temp2[7]);
+    delay(200);
+  }
+  for(int t=0;t<8;t++){
+    for(int s=0;s<7;s++){
+      temp1[s]=temp1[s+1];
+      temp2[s]=temp2[s+1];
+      temp3[s]=temp3[s+1];
+      temp4[s]=temp4[s+1];
+      lc1.setRow(4,s,temp1[s]);
+      lc1.setRow(5,s,temp2[s]);
+      lc2.setRow(4,s,temp3[s]);
+      lc2.setRow(5,s,temp4[s]);
+    }
+    temp1[7]=k[t];
+    temp2[7]=l[t];
+    temp3[7]=i[t];
+    temp4[7]=j[t];
+    lc1.setRow(4,7,temp1[7]);
+    lc1.setRow(5,7,temp2[7]);
+    lc2.setRow(4,7,temp3[7]);
+    lc2.setRow(5,7,temp4[7]);
+    delay(200);
+  }//跑科字
+  for (int i=0;i<8;i++){
+    temp1[i]=0;
+    temp2[i]=0;
+    temp3[i]=0;
+    temp4[i]=0;
+  }//洗陣列
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      lc1.setRow(6,i,temp1[i]);
+      lc1.setRow(7,i,temp2[i]);
+    }
+    temp1[7]=m[j];
+    temp2[7]=n[j];
+    lc1.setRow(6,7,temp1[7]);
+    lc1.setRow(7,7,temp2[7]);
+    delay(200);
+  }
+  for(int j=0;j<8;j++){
+    for(int i=0;i<7;i++){
+      temp1[i]=temp1[i+1];
+      temp2[i]=temp2[i+1];
+      temp3[i]=temp3[i+1];
+      temp4[i]=temp4[i+1];
+      lc1.setRow(6,i,temp1[i]);
+      lc1.setRow(7,i,temp2[i]);
+      lc2.setRow(6,i,temp3[i]);
+      lc2.setRow(7,i,temp4[i]);
+    }
+    temp1[7]=o[j];
+    temp2[7]=p[j];
+    temp3[7]=m[j];
+    temp4[7]=n[j];
+    lc1.setRow(6,7,temp1[7]);
+    lc1.setRow(7,7,temp2[7]);
+    lc2.setRow(6,7,temp3[7]);
+    lc2.setRow(7,7,temp4[7]);
+    delay(200);
+  }//跑展字
+  for (int i=0;i<8;i++){
+    temp1[i]=0;
+    temp2[i]=0;
+    temp3[i]=0;
+    temp4[i]=0;
+  }//洗陣列
+  for (int s=0;s<8;s++){
+    lc1.setRow(0,s,c[s]);
+    lc2.setRow(0,s,a[s]);
+    lc1.setRow(1,s,d[s]);
+    lc2.setRow(1,s,b[s]);
+    lc1.setRow(2,s,g[s]);
+    lc2.setRow(2,s,e[s]);
+    lc1.setRow(3,s,h[s]);
+    lc2.setRow(3,s,f[s]);
+    lc1.setRow(4,s,k[s]);
+    lc2.setRow(4,s,i[s]);
+    lc1.setRow(5,s,l[s]);
+    lc2.setRow(5,s,j[s]);
+    lc1.setRow(6,s,o[s]);
+    lc2.setRow(6,s,m[s]);
+    lc1.setRow(7,s,p[s]);
+    lc2.setRow(7,s,n[s]);
+  }
+  delay(200);  
+  for (int j=0;j<8;j++){
+    lc1.setRow(0,7-j,0);
+    lc1.setRow(1,7-j,0);
+    lc1.setRow(2,7-j,0);
+    lc1.setRow(3,7-j,0);
+    lc1.setRow(4,7-j,0);
+    lc1.setRow(5,7-j,0);
+    lc1.setRow(6,7-j,0);
+    lc1.setRow(7,7-j,0);
+    delay(200);
+  }
+  for (int j=0;j<8;j++){
+    lc2.setRow(0,7-j,0);
+    lc2.setRow(1,7-j,0);
+    lc2.setRow(2,7-j,0);
+    lc2.setRow(3,7-j,0);
+    lc2.setRow(4,7-j,0);
+    lc2.setRow(5,7-j,0);
+    lc2.setRow(6,7-j,0);
+    lc2.setRow(7,7-j,0);
+    delay(200);
+  }  
+}
