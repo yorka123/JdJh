@@ -1,0 +1,79 @@
+"""
+#input success
+
+from pyfirmata2 import ArduinoMega
+import time
+board = ArduinoMega('COM5')
+while 1:
+    board.digital[13].write(0)
+    time.sleep(0.5)
+    board.digital[13].write(1)
+"""
+# excel transform
+
+from openpyxl import Workbook, load_workbook  # 引用openpyxl 程式庫
+from openpyxl.utils import get_column_letter  # 引用openpyxl 擴充函式
+
+BitWord = load_workbook('點陣圖式1110225.xlsx')  # 匯入檔案
+title = BitWord.sheetnames
+save_list = []
+
+for name in range(len(title)):  # 資料存入陣列(尚未分割，橫列儲存)
+    sheet = BitWord[title[name]]
+    save_list.append([])
+    for row in range(1, 17):  # 分16行
+        save_list[name].append([])
+        for col in range(1, 17):  # 輸入數值
+            char = get_column_letter(col)
+            save_list[name][row - 1].append(sheet[char + str(row)].value)
+
+"""
+for name in range(len(save_list)):  # 測試輸出
+    for row in range(len(save_list[0])):
+        print(save_list[name][row])
+    print('')
+"""
+
+save_char = ""  # 四部分分割
+t_list = []
+o_list = []
+
+for name in range(4):  # 四字版
+    t_list.append([[], [], [], []])  # 1/4
+    o_list.append([[], [], [], []])
+    for row in range(16):
+        for sep in range(2):  # 判斷上下部分
+            for num in range(8):  # 判斷左右部分
+                if sep == 0:
+                    save_char += str(save_list[name][row][num])
+                else:
+                    save_char += str(save_list[name][row][num + 8])
+            if row < 8:
+                t_list[name][sep].append(save_char)
+            else:
+                t_list[name][sep + 2].append(save_char)
+            save_char = ""
+
+save_char = "B"  # +B&縱置
+
+for word in range(4):
+    for part in range(4):
+        for char in range(8):
+            for line in range(7, -1, -1):
+                save_char += t_list[word][part][line][char]
+            o_list[word][part].append(save_char)
+            save_char = "B"
+
+line = ""
+
+for word in range(4):  # 印出程序&整理
+    for part in range(4):  # 分字
+        line += "{"
+        for row in range(8):
+            line += o_list[word][part][row]
+            if row < 7:
+                line += ", "
+        line += "}"
+        print(line)
+        line = ""
+    print("")
